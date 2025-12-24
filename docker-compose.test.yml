@@ -1,0 +1,31 @@
+networks:
+  employees_network:
+
+services:
+  mongo_test:
+    image: mongo:7
+    container_name: mongo_test
+    ports:
+      - "27018:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - employees_network
+
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: employees_tests
+    command: uv run pytest -v --disable-warnings
+    environment:
+      MONGO_HOST: mongo_test
+      MONGO_PORT: 27017
+      MONGO_DB: test_db
+    depends_on:
+      - mongo_test
+    networks:
+      - employees_network
