@@ -1,5 +1,4 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pymongo import AsyncMongoClient
 
 
 class Settings(BaseSettings):
@@ -17,12 +16,3 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-
-mongo_client = AsyncMongoClient(
-    host=settings.MONGO_HOST,
-    port=settings.MONGO_PORT,
-)
-
-mongo_db = mongo_client[settings.MONGO_DB]
-
-employees_collection = mongo_db["employees"]
