@@ -1,9 +1,9 @@
-networks:
-  employees_network:
-
 services:
   mongo:
     image: mongo:7
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d
     container_name: mongo
     restart: on-failure
     ports:
@@ -30,3 +30,9 @@ services:
         condition: service_healthy
     networks:
       - employees_network
+
+networks:
+  employees_network:
+
+volumes:
+  mongo_data:
