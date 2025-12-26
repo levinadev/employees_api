@@ -1,4 +1,4 @@
-from app.core.config import employees_collection
+from app.core.db import employees_collection
 from app.crud.base import BaseMongoCRUD
 
 

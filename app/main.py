@@ -4,7 +4,7 @@ from app.api.routers import main_router
 
 app = FastAPI(
     title="Employees API",
-    description="Микросервис для получения сотрудников.",
+    description="Микросервис для получения данных о сотрудниках.",
     version="1.0.0",
 )
 app.include_router(main_router)
