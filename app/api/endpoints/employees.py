@@ -3,10 +3,8 @@ from math import ceil
 from fastapi import APIRouter, Depends
 
 from app.crud.employees import employees_crud
-from app.schemas.employees import (
-    EmployeeFilterParams,
-    EmployeeListResponse,
-)
+from app.schemas.employees import EmployeeListResponse
+from app.schemas.filters import EmployeeFilterParams
 from app.schemas.pagination import PaginatedParams, PaginationResponse
 
 router = APIRouter()
