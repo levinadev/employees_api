@@ -7,7 +7,7 @@ def test_get_employees(seed_db):
 
     assert response.status_code == 200
 
-    data = response.json()
+    data = response.json()["data"]
     assert len(data) == len(seed_db)
 
     names = [e["name"] for e in data]
