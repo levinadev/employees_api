@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from fastapi import Query
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class EmployeeFilterParams(BaseModel):
@@ -108,8 +108,8 @@ class EmployeeFilterParams(BaseModel):
         if self.join_date_from or self.join_date_to:
             query["join_date"] = {}
             if self.join_date_from:
-                query["join_date"]["$gte"] = self.join_date_from
+                query["join_date"]["$gte"] = self.join_date_from.isoformat()
             if self.join_date_to:
-                query["join_date"]["$lte"] = self.join_date_to
+                query["join_date"]["$lte"] = self.join_date_to.isoformat()
 
         return query
