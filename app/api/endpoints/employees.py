@@ -1,8 +1,10 @@
 from math import ceil
 
 from fastapi import APIRouter, Depends
+from pymongo.asynchronous.collection import AsyncCollection
 
-from app.crud.employees import employees_crud
+from app.core.db import get_employees_collection
+from app.crud.employees import EmployeesCRUD
 from app.schemas.employees import EmployeeListResponse
 from app.schemas.filters import EmployeeFilterParams
 from app.schemas.pagination import PaginatedParams, PaginationResponse
@@ -14,7 +16,9 @@ router = APIRouter()
 async def get_employees(
     pagination: PaginatedParams = Depends(PaginatedParams.as_query()),
     filters: EmployeeFilterParams = Depends(EmployeeFilterParams.as_query()),
+    db_collection: AsyncCollection = Depends(get_employees_collection),
 ) -> EmployeeListResponse:
+    employees_crud = EmployeesCRUD(collection=db_collection)
 
     items, total = await employees_crud.get_all(
         limit=pagination.limit,

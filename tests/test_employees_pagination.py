@@ -1,10 +1,7 @@
-from fastapi.testclient import TestClient
-from app.main import app
 
-def test_pagination_default(seed_db):
+async def test_pagination_default(seed_db, test_client):
     """Проверка стандартной пагинации без параметров"""
-    with TestClient(app) as client:
-        response = client.get("/employees/")
+    response = await test_client.get("/employees/")
 
     assert response.status_code == 200
     resp_json = response.json()

@@ -1,9 +1,8 @@
-from fastapi.testclient import TestClient
-from app.main import app
 
-def test_get_employees(seed_db):
-    with TestClient(app) as client:
-        response = client.get("/employees/")
+
+async def test_get_employees(seed_db, test_client):
+
+    response = await test_client.get("/employees/")
 
     assert response.status_code == 200
 
