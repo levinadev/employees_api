@@ -39,6 +39,17 @@ http://127.0.0.1:8000/docs
 docker compose down
 ```
 
+## Запуск тестов
+1. Запустите автотесты и тестовую базу данных в контейнерах:
+```
+docker compose -f docker-compose.test.yml up --build
+```
+2. Для остановки сервисов:
+```
+docker compose -f docker-compose.test.yml down
+```
+
+
 ## Пример запроса
 Получить данные о сотруднике
 ```
