@@ -1,7 +1,7 @@
+import json
 from typing import AsyncGenerator
 from httpx import AsyncClient, ASGITransport
 import pytest
-from datetime import datetime
 from pymongo import AsyncMongoClient
 from pymongo.asynchronous.collection import AsyncCollection
 
@@ -9,6 +9,7 @@ from app.core.db import get_employees_collection
 from app.main import app
 from app.core.settings import settings
 
+DATA_FILE = "mongo-init/employees.json"
 TEST_MONGO_HOST = "localhost"
 TEST_MONGO_PORT = 27018
 TEST_MONGO_DB = "test_db"
@@ -33,28 +34,8 @@ async def test_collection(async_mongo_db):
 
 @pytest.fixture(scope="function", autouse=True)
 async def seed_db(test_collection):
-    test_data = [
-        {
-            "name": "Flynn Vang",
-            "email": "flynn.vang@test.com",
-            "age": 69,
-            "company": "Twitter",
-            "join_date": datetime.fromisoformat("2003-12-28T18:18:10-08:00"),
-            "job_title": "janitor",
-            "gender": "female",
-            "salary": 9632,
-        },
-        {
-            "name": "Cedric Page",
-            "email": "cedric.page@test.com",
-            "age": 63,
-            "company": "Yandex",
-            "join_date": datetime.fromisoformat("2001-06-10T19:08:52-07:00"),
-            "job_title": "janitor",
-            "gender": "male",
-            "salary": 9688,
-        },
-    ]
+    with open(DATA_FILE, encoding="utf-8") as f:
+        test_data = json.load(f)
 
     await test_collection.delete_many({})
     await test_collection.insert_many(test_data)
