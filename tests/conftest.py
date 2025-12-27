@@ -21,9 +21,10 @@ async def async_mongo_db():
         host=settings.MONGO_HOST,
         port=settings.MONGO_PORT,
     )
-
     mongo_db = mongo_client[settings.MONGO_DB]
-    return mongo_db
+    yield mongo_db
+    await mongo_client.close()
+
 
 
 @pytest.fixture(autouse=True)
