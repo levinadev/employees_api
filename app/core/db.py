@@ -2,6 +2,7 @@ from typing import AsyncGenerator
 
 from pymongo import AsyncMongoClient
 from pymongo.asynchronous.collection import AsyncCollection
+from pymongo.asynchronous.database import AsyncDatabase
 
 from app.core.settings import settings
 
@@ -11,12 +12,12 @@ mongo_client = AsyncMongoClient(
 )
 
 
-def get_db():
+def get_db() -> AsyncDatabase:
     mongo_db = mongo_client[settings.MONGO_DB]
     return mongo_db
 
 
 async def get_employees_collection() -> AsyncGenerator[AsyncCollection, None]:
     db = get_db()
-    collection = db["employees"]
+    collection: AsyncCollection = db["employees"]
     yield collection
