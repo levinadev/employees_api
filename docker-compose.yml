@@ -1,0 +1,38 @@
+services:
+  mongo:
+    image: mongo:7
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d
+    container_name: mongo
+    restart: on-failure
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - employees_network
+
+  api:
+    build: .
+    container_name: employees_api
+    ports:
+      - "8000:8000"
+    environment:
+      MONGO_HOST: mongo
+      MONGO_PORT: 27017
+      MONGO_DB: employees_db
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - employees_network
+
+networks:
+  employees_network:
+
+volumes:
+  mongo_data:

@@ -1,0 +1,11 @@
+.git
+__pycache__
+*.pyc
+*.pyo
+*.swp
+.idea
+*.log
+*.sock
+*.loc
+.venv
+node_modules
