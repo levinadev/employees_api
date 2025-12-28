@@ -5,9 +5,6 @@ from pydantic import BaseModel
 
 
 class EmployeeFilterParams(BaseModel):
-    """
-    Схема для параметров фильтров сотрудников
-    """
 
     name: str | None
     email: str | None
