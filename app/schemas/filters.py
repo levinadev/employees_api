@@ -27,7 +27,6 @@ class EmployeeFilterParams(BaseModel):
     @classmethod
     def as_query(cls):
         def dependency(
-            # TODO: где фильтрация строк, мне не понятно из описания с вхождением или нет в подстроку или точное совпадение
             name: str | None = Query(
                 None,
                 description="Фильтр по имени (по вхождению, нечувствительно к регистру)",
