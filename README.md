@@ -40,11 +40,17 @@ docker compose down
 ```
 
 ## Запуск тестов
-1. Запустите автотесты и тестовую базу данных в контейнерах:
+1. Соберите контейнеры:
+```
+docker compose -f docker-compose.test.yml build
+```
+
+2. Запустите автотесты
 ```
 docker compose -f docker-compose.test.yml run tests
 ```
-2. Для остановки сервисов:
+
+3. Для остановки сервисов:
 ```
 docker compose -f docker-compose.test.yml down
 ```
