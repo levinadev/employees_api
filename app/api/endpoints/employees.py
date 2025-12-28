@@ -1,5 +1,3 @@
-from math import ceil
-
 from fastapi import APIRouter, Depends
 from pymongo.asynchronous.collection import AsyncCollection
 
@@ -20,7 +18,7 @@ async def get_employees(
 ) -> EmployeeListResponse:
     employees_crud = EmployeesCRUD(collection=db_collection)
 
-    items, total = await employees_crud.get_all(
+    items, pagination_dict = await employees_crud.get_all_with_pagination(
         limit=pagination.limit,
         page=pagination.page,
         sort=pagination.sort,
@@ -28,16 +26,7 @@ async def get_employees(
         filters=filters.to_mongo(),
     )
 
-    last_page = ceil(total / pagination.limit) if total else 1
-
     return EmployeeListResponse(
         data=items,
-        pagination=PaginationResponse(
-            total=total,
-            limit=pagination.limit,
-            current_page=pagination.page,
-            last_page=last_page,
-            sort=pagination.sort,
-            order=pagination.order,
-        ),
+        pagination=PaginationResponse(**pagination_dict),
     )
