@@ -5,9 +5,6 @@ from pydantic import BaseModel
 
 
 class EmployeeFilterParams(BaseModel):
-    """
-    Схема для параметров фильтров сотрудников
-    """
 
     name: str | None
     email: str | None
@@ -28,37 +25,59 @@ class EmployeeFilterParams(BaseModel):
     def as_query(cls):
         def dependency(
             name: str | None = Query(
-                None, description="Фильтр по имени", examples=["Flynn Vang"]
+                None,
+                description="Имя (по вхождению, нечувствительно к регистру)",
+                examples=["Flynn Vang"],
             ),
             email: str | None = Query(
-                None, description="Фильтр по email", examples=["user@example.com"]
+                None,
+                description="Email (по вхождению, нечувствительно к регистру)",
+                examples=["user@example.com"],
             ),
             company: str | None = Query(
-                None, description="Фильтр по компании", examples=["Twitter"]
+                None,
+                description="Компания (точное совпадение, чувствительно к регистру)",
+                examples=["Twitter"],
             ),
             job_title: str | None = Query(
-                None, description="Фильтр по должности", examples=["janitor"]
+                None,
+                description="Должность (по вхождению, нечувствительно к регистру)",
+                examples=["janitor"],
             ),
             gender: str | None = Query(
-                None, description="Фильтр по полу", examples=["female"]
+                None,
+                description="Пол (точное совпадение, чувствительно к регистру)",
+                examples=["female"],
             ),
             age_min: int | None = Query(
-                None, ge=0, description="Минимальный возраст", examples=[30]
+                None,
+                ge=0,
+                description="Минимальный возраст (включительно)",
+                examples=[30],
             ),
             age_max: int | None = Query(
-                None, ge=0, description="Максимальный возраст", examples=[65]
+                None,
+                ge=0,
+                description="Максимальный возраст (включительно)",
+                examples=[65],
             ),
             salary_min: int | None = Query(
-                None, ge=0, description="Минимальная зарплата", examples=[3000]
+                None,
+                ge=0,
+                description="Минимальная зарплата (включительно)",
+                examples=[3000],
             ),
             salary_max: int | None = Query(
-                None, ge=0, description="Максимальная зарплата", examples=[10000]
+                None,
+                ge=0,
+                description="Максимальная зарплата (включительно)",
+                examples=[10000],
             ),
             join_date_from: datetime | None = Query(
-                None, description="Дата трудоустройства от"
+                None, description="Дата трудоустройства от (включительно)"
             ),
             join_date_to: datetime | None = Query(
-                None, description="Дата трудоустройства до"
+                None, description="Дата трудоустройства до (включительно)"
             ),
         ):
             return cls(

@@ -1,13 +1,16 @@
+from enum import StrEnum
 from typing import Annotated
 
 from fastapi import Query
 from pydantic import BaseModel, Field
 
 
+class SortOrder(StrEnum):
+    ASC = "asc"
+    DESC = "desc"
+
+
 class PaginatedParams(BaseModel):
-    """
-    Схема для параметров запроса пагинации и сортировки
-    """
 
     limit: int
     page: int
@@ -23,15 +26,21 @@ class PaginatedParams(BaseModel):
                 description="Количество записей на одной странице",
                 examples=[10],
             ),
-            page: int = Query(1, ge=1, description="Номер страницы", examples=[1]),
-            sort: str = Query(
-                "name", description="Поле для сортировки", examples=["name"]
+            page: int = Query(
+                1,
+                ge=1,
+                description="Номер страницы",
+                examples=[1],
             ),
-            order: str = Query(
-                "asc",
-                pattern="^(asc|desc)$",
+            sort: str = Query(
+                "name",
+                description="Поле для сортировки. Доступные поля: name, age, salary и т.д.",
+                examples=["name"],
+            ),
+            order: SortOrder = Query(
+                SortOrder.ASC,
                 description="Направление сортировки",
-                examples=["asc"],
+                examples=[SortOrder.ASC, SortOrder.DESC],
             ),
         ):
             return cls(limit=limit, page=page, sort=sort, order=order)
@@ -40,23 +49,30 @@ class PaginatedParams(BaseModel):
 
 
 class PaginationResponse(BaseModel):
-    """
-    Схема ответа с информацией о пагинации
-    """
 
     total: Annotated[
-        int, Field(description="Общее количество элементов в коллекции", example=42)
+        int,
+        Field(description="Общее количество элементов в коллекции", examples=[42]),
     ]
     limit: Annotated[
-        int, Field(description="Количество элементов на одной странице", example=10)
+        int,
+        Field(description="Количество элементов на одной странице", examples=[10]),
     ]
-    current_page: Annotated[int, Field(description="Текущий номер страницы", example=1)]
-    last_page: Annotated[int, Field(description="Номер последней страницы", example=5)]
+    current_page: Annotated[
+        int,
+        Field(description="Текущий номер страницы", examples=[1]),
+    ]
+    last_page: Annotated[
+        int,
+        Field(description="Номер последней страницы", examples=[5]),
+    ]
     sort: Annotated[
         str,
-        Field(description="Поле, по которому выполнялась сортировка", example="name"),
+        Field(
+            description="Поле, по которому выполнялась сортировка", examples=["name"]
+        ),
     ]
     order: Annotated[
         str,
-        Field(description="Направление сортировки: 'asc' или 'desc'", example="asc"),
+        Field(description="Направление сортировки: 'asc' или 'desc'", examples=["asc"]),
     ]

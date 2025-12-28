@@ -6,25 +6,25 @@ from pymongo import AsyncMongoClient
 from pymongo.asynchronous.collection import AsyncCollection
 
 from app.core.db import get_employees_collection
-from app.main import app
 from app.core.settings import settings
+from app.main import app
 
-DATA_FILE = "mongo-init/employees.json"
-TEST_MONGO_HOST = "localhost"
-TEST_MONGO_PORT = 27018
-TEST_MONGO_DB = "test_db"
+DATA_FILE = settings.TEST_DATA_FILE
+TEST_MONGO_HOST = settings.TEST_MONGO_HOST
+TEST_MONGO_PORT = settings.TEST_MONGO_PORT
+TEST_MONGO_DB = settings.TEST_MONGO_DB
+TEST_BASE_URL = settings.TEST_BASE_URL
 
 
 @pytest.fixture(scope="function", autouse=True)
 async def async_mongo_db():
     mongo_client = AsyncMongoClient(
-        host=settings.MONGO_HOST,
-        port=settings.MONGO_PORT,
+        host=TEST_MONGO_HOST,
+        port=TEST_MONGO_PORT,
     )
-    mongo_db = mongo_client[settings.MONGO_DB]
+    mongo_db = mongo_client[TEST_MONGO_DB]
     yield mongo_db
     await mongo_client.close()
-
 
 
 @pytest.fixture(autouse=True)
@@ -50,7 +50,7 @@ async def seed_db(test_collection):
 async def test_client() -> AsyncGenerator[AsyncClient, None]:
     async with AsyncClient(
             transport=ASGITransport(app),
-            base_url="http://web:8000",
+            base_url=TEST_BASE_URL,
     ) as client:
         yield client
 
@@ -58,11 +58,11 @@ async def test_client() -> AsyncGenerator[AsyncClient, None]:
 @pytest.fixture(autouse=True)
 async def override_dep(test_collection):
     mongo_client = AsyncMongoClient(
-        host=settings.MONGO_HOST,
-        port=settings.MONGO_PORT,
+        host=TEST_MONGO_HOST,
+        port=TEST_MONGO_PORT,
     )
 
-    mongo_db = mongo_client[settings.MONGO_DB]
+    mongo_db = mongo_client[TEST_MONGO_DB]
 
     async def _override_dep() -> AsyncGenerator[AsyncCollection, None]:
         collection = mongo_db["employees"]

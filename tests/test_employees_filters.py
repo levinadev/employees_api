@@ -27,6 +27,7 @@ async def test_filter_company(seed_db, test_client):
     assert len(data) > 0, "Фильтр по компании не вернул записи"
     assert all(e["company"] == company for e in data)
 
+
 async def test_filter_job_title(seed_db, test_client):
     """Проверка фильтра по должности"""
     job_title = "director"
