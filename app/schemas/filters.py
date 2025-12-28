@@ -26,27 +26,27 @@ class EmployeeFilterParams(BaseModel):
         def dependency(
             name: str | None = Query(
                 None,
-                description="Фильтр по имени (по вхождению, нечувствительно к регистру)",
+                description="Имя (по вхождению, нечувствительно к регистру)",
                 examples=["Flynn Vang"],
             ),
             email: str | None = Query(
                 None,
-                description="Фильтр по email (по вхождению, нечувствительно к регистру)",
+                description="Email (по вхождению, нечувствительно к регистру)",
                 examples=["user@example.com"],
             ),
             company: str | None = Query(
                 None,
-                description="Фильтр по компании (точное совпадение, чувствительно к регистру)",
+                description="Компания (точное совпадение, чувствительно к регистру)",
                 examples=["Twitter"],
             ),
             job_title: str | None = Query(
                 None,
-                description="Фильтр по должности (по вхождению, нечувствительно к регистру)",
+                description="Должность (по вхождению, нечувствительно к регистру)",
                 examples=["janitor"],
             ),
             gender: str | None = Query(
                 None,
-                description="Фильтр по полу (точное совпадение, чувствительно к регистру)",
+                description="Пол (точное совпадение, чувствительно к регистру)",
                 examples=["female"],
             ),
             age_min: int | None = Query(
