@@ -1,7 +1,8 @@
 import json
 from typing import AsyncGenerator
-from httpx import AsyncClient, ASGITransport
+
 import pytest
+from httpx import ASGITransport, AsyncClient
 from pymongo import AsyncMongoClient
 from pymongo.asynchronous.collection import AsyncCollection
 
@@ -9,7 +10,7 @@ from app.core.db import get_employees_collection
 from app.core.settings import settings
 from app.main import app
 
-DATA_FILE = settings.TEST_DATA_FILE
+TEST_DATA_FILE = settings.TEST_DATA_FILE
 TEST_MONGO_HOST = settings.TEST_MONGO_HOST
 TEST_MONGO_PORT = settings.TEST_MONGO_PORT
 TEST_MONGO_DB = settings.TEST_MONGO_DB
@@ -35,7 +36,7 @@ async def test_collection(async_mongo_db):
 
 @pytest.fixture(scope="function", autouse=True)
 async def seed_db(test_collection):
-    with open(DATA_FILE, encoding="utf-8") as f:
+    with open(TEST_DATA_FILE, encoding="utf-8") as f:
         test_data = json.load(f)
 
     await test_collection.delete_many({})
@@ -49,8 +50,8 @@ async def seed_db(test_collection):
 @pytest.fixture
 async def test_client() -> AsyncGenerator[AsyncClient, None]:
     async with AsyncClient(
-            transport=ASGITransport(app),
-            base_url=TEST_BASE_URL,
+        transport=ASGITransport(app),
+        base_url=TEST_BASE_URL,
     ) as client:
         yield client
 
