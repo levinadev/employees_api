@@ -40,7 +40,9 @@ async def test_pagination_second_page(seed_db, test_client):
 
     assert pagination["current_page"] == page2
     assert len(data_page2) <= pagination["limit"]
-    assert not names_page1 & names_page2, "Элементы на второй странице пересекаются с первой!"
+    assert (
+        not names_page1 & names_page2
+    ), "Элементы на второй странице пересекаются с первой!"
 
 
 async def test_pagination_page_beyond_last(seed_db, test_client):
