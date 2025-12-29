@@ -45,7 +45,7 @@ docker compose down
 docker compose -f docker-compose.test.yml build
 ```
 
-2. Запустите автотесты
+2. Запустите тесты:
 ```
 docker compose -f docker-compose.test.yml run tests
 ```

@@ -61,7 +61,9 @@ async def test_filter_age_range(seed_db, test_client):
 async def test_filter_salary_range(seed_db, test_client):
     """Проверка фильтра по диапазону зарплаты"""
     salary_min, salary_max = 3000, 5000
-    response = await test_client.get(f"/employees/?salary_min={salary_min}&salary_max={salary_max}")
+    response = await test_client.get(
+        f"/employees/?salary_min={salary_min}&salary_max={salary_max}"
+    )
     data = response.json()["data"]
     assert response.status_code == 200
     assert len(data) > 0, "Фильтр по зарплате не вернул записи"

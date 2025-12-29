@@ -2,7 +2,7 @@ async def test_combined_filters_sort_pagination_single_result(seed_db, test_clie
     """
     Проверка комбинации: фильтр по name + company + gender
     + сортировка
-    + пагинация (один ожидаемый результат)
+    + пагинация
     """
     params = {
         "limit": 5,
