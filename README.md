@@ -96,7 +96,6 @@ GET /employees/?limit=5&page=1&sort=salary&order=desc&name=Slade&company=Google&
 - Uvicorn >=0.40.0
 - MongoDB 7
 - PyMongo >=4.15.5
-- Motor (async MongoDB driver)
 - Pytest >=9.0.2
 - Pytest-asyncio >=1.3.0
 - HTTPX >=0.28.1
